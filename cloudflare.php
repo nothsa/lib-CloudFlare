@@ -27,9 +27,9 @@ class Cloudflare
     */
     public function __construct($params=array())
     {
-        if(isset($params['token'])) { $this->_token = $token; }
-        if(isset($params['email'])) { $this->_email = $email; }
-        if(isset($params['default_zone'])) { $this->_default_zone = $default_zone; }
+        if(isset($params['token'])) { $this->_token = $params['token']; }
+        if(isset($params['email'])) { $this->_email = $params['email']; }
+        if(isset($params['default_zone'])) { $this->_default_zone = $params['default_zone']; }
 
         $this->_request_params = array('tkn' => $this->_token, 'email' => $this->_email);
     }
