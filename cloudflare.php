@@ -20,19 +20,18 @@ class Cloudflare
     private $_email = "your-cloudflare-account-email-address";       //Associated Email address
     private $_default_zone = NULL;                                   //Default Zone (e.g. example.com)
 
-    private $_params;
+    private $_request_params;
 
     /**
-     * @param string $token The token used to access the API (defaults to the token specified in the library)
-     * @param string $email The email address used to access the API (defaults to the email address specified in the library)
-     * @param string $default_zone The default zone to use if one is not specified when requesting a call
+     * @param array $params The initialization parameters
     */
-    public function __construct($token=NULL, $email=NULL, $default_zone=NULL)
+    public function __construct($params=array())
     {
-        if(!is_null($token)) { $this->_token = $token; }
-        if(!is_null($email)) { $this->_email = $email; }
-        if(!is_null($default_zone)) { $this->_default_zone = $default_zone; }
-        $this->_params = array('tkn' => $this->_token, 'email' => $this->_email);
+        if(isset($params['token'])) { $this->_token = $token; }
+        if(isset($params['email'])) { $this->_email = $email; }
+        if(isset($params['default_zone'])) { $this->_default_zone = $default_zone; }
+
+        $this->_request_params = array('tkn' => $this->_token, 'email' => $this->_email);
     }
 
     /**
@@ -40,7 +39,7 @@ class Cloudflare
      * @param mixed $key The key to set in the parameters array
      * @param mixed $value The value to set in the parameters array
     */
-    private function _set_param($key, $value) { $this->_params[$key] = $value; }
+    private function _set_param($key, $value) { $this->_request_params[$key] = $value; }
 
     /**
     * Makes POST request via cURL to Cloudflare API. Wites to log file if log folder is specified in $this->_log_path.
@@ -50,7 +49,7 @@ class Cloudflare
     */
     private function _request($params=NULL)
     {
-        if(is_null($params)) { $params = $this->_params; }
+        if(is_null($params)) { $params = $this->_request_params; }
 
         if(array_key_exists('z', $params) && is_null($params['z']))
         if(!isset($params['z']))
